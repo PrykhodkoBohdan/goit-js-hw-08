@@ -24,7 +24,7 @@ if (refs.email.value === "" || refs.message.value  === "") {
   localStorage.removeItem(LOCALSTORAGE_KEY);
   localStorage.removeItem('Email');
   even.currentTarget.reset();
-  console.log(formDate);
+  // console.log("Work else");
 }
 };
 
@@ -58,8 +58,8 @@ function texteriaMessage() {
  }
 
  if (saveEmail) {
-refs.email.value = JSON.parse(saveEmail);
-formDate.email = refs.email.value;
+  refs.email.value = JSON.parse(saveEmail);
+  formDate.email = refs.email.value;
  }
  
-}
+};
