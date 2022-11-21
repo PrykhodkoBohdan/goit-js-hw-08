@@ -5,8 +5,7 @@ const refs = {
   email: document.querySelector('input'),
   message: document.querySelector('textarea'),
   button: document.querySelector('button')
-
-}
+};
 const LOCALSTORAGE_KEY = "feedback-form-state";
 const formDate = {};
 
@@ -26,12 +25,13 @@ if (refs.email.value === "" || refs.message.value  === "") {
   localStorage.removeItem('Email');
   even.currentTarget.reset();
   console.log(formDate);
+}
 };
 
 
-};
+
 function onInputClick(even) {
-formDate[even.target.name] = e.target.value;
+formDate[even.target.name] = even.target.value;
 
 }
 
@@ -62,4 +62,4 @@ refs.email.value = JSON.parse(saveEmail);
 formDate.email = refs.email.value;
  }
  
-};
+}
