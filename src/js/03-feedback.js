@@ -28,8 +28,6 @@ if (refs.email.value === "" || refs.message.value  === "") {
 }
 };
 
-
-
 function onInputClick(even) {
 formDate[even.target.name] = even.target.value;
 
@@ -55,11 +53,13 @@ function texteriaMessage() {
  if (saveMessage) {
  refs.message.value = JSON.parse(saveMessage);
  formDate.message = refs.message.value;
+ console.log(saveMessage,"message");
  }
 
  if (saveEmail) {
 refs.email.value = JSON.parse(saveEmail);
 formDate.email = refs.email.value;
+console.log(saveEmail,"email");
  }
  
 }
