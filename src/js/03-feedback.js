@@ -5,8 +5,7 @@ const refs = {
   email: document.querySelector('input'),
   message: document.querySelector('textarea'),
   button: document.querySelector('button')
-
-}
+};
 const LOCALSTORAGE_KEY = "feedback-form-state";
 const formDate = {};
 
@@ -16,34 +15,36 @@ refs.form.addEventListener('input', onInputClick);
 refs.email.addEventListener('input', throttle(onEmail, 500));
 refs.message.addEventListener('input', throttle(onMessage, 500));
 
-function onButtonClick(e) {
-e.preventDefault();
-if (refs.email.value === "") {
-  alert('всі поля повинні бути заповнені!');
-} else if (refs.message.value  === "") {
-  alert('всі поля повинні бути заповнені!');
+function onButtonClick(even) {
+even.preventDefault();
+
+if (refs.email.value === "" || refs.message.value  === "") {
+  alert('All fields must be filled!');
 } else {
   localStorage.removeItem(LOCALSTORAGE_KEY);
   localStorage.removeItem('Email');
+  even.currentTarget.reset();
   console.log(formDate);
-  e.currentTarget.reset();
+}
 };
-};
-function onInputClick(e) {
-formDate[e.target.name] = e.target.value;
-// console.log(formDate);
+
+
+
+function onInputClick(even) {
+formDate[even.target.name] = even.target.value;
+
 }
 
-function onEmail(e) {
-const email = JSON.stringify(formDate[e.target.name]);
+function onEmail(even) {
+const email = JSON.stringify(formDate[even.target.name]);
 localStorage.setItem('Email', email);
 
 };
 
-function onMessage(e) {
-  const message = JSON.stringify(formDate[e.target.name]);
+function onMessage(even) {
+  const message = JSON.stringify(formDate[even.target.name]);
   localStorage.setItem(LOCALSTORAGE_KEY, message);
-  // console.log(message)
+ 
 };
 
 function texteriaMessage() {
@@ -59,7 +60,6 @@ function texteriaMessage() {
  if (saveEmail) {
 refs.email.value = JSON.parse(saveEmail);
 formDate.email = refs.email.value;
- };
+ }
  
-};
-
+}
