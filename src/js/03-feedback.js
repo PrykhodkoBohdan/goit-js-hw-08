@@ -51,13 +51,13 @@ function texteriaMessage() {
  const saveEmail = localStorage.getItem('Email');
 
  if (saveMessage) {
- refs.message.value = JSON.parse(saveMessage);
+ refs.message.value = JSON.parse(saveMessage)|| {message:""};
  formDate.message = refs.message.value;
  console.log(saveMessage,"message");
  }
 
  if (saveEmail) {
-refs.email.value = JSON.parse(saveEmail);
+refs.email.value = JSON.parse(saveEmail)|| {email:""};
 formDate.email = refs.email.value;
 console.log(saveEmail,"email");
  }
