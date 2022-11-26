@@ -1,65 +1,42 @@
 import throttle from "lodash.throttle";
 
-const refs = {
-  form: document.querySelector('.feedback-form'),
-  email: document.querySelector('input'),
-  message: document.querySelector('textarea'),
-  button: document.querySelector('button')
-};
-const LOCALSTORAGE_KEY = "feedback-form-state";
-const formDate = {};
+const form = document.querySelector('.feedback-form');
 
-texteriaMessage(formDate);
-refs.form.addEventListener('submit', onButtonClick);
-refs.form.addEventListener('input', onInputClick);
-refs.email.addEventListener('input', throttle(onEmail, 500));
-refs.message.addEventListener('input', throttle(onMessage, 500));
+const LOCALSTORAGE_KEY = 'feedback-form-state';
 
-function onButtonClick(even) {
-even.preventDefault();
-
-if (refs.email.value === "" || refs.message.value  === "") {
-  alert('All fields must be filled!');
-} else {
-  localStorage.removeItem(LOCALSTORAGE_KEY);
-  localStorage.removeItem('Email');
-  even.currentTarget.reset();
-  console.log(formDate);
-}
-};
-
-function onInputClick(even) {
-formDate[even.target.name] = even.target.value;
-
-}
-
-function onEmail(even) {
-const email = JSON.stringify(formDate[even.target.name]);
-localStorage.setItem('Email', email);
-
-};
-
-function onMessage(even) {
-  const message = JSON.stringify(formDate[even.target.name]);
-  localStorage.setItem(LOCALSTORAGE_KEY, message);
- 
-};
-
-function texteriaMessage() {
+function onInputForm(e) {
+  e.preventDefault();
+  const message = form.elements.message.value;
+  const email = form.elements.email.value;
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify({ message, email }));
   
- const saveMessage = localStorage.getItem(LOCALSTORAGE_KEY);
- const saveEmail = localStorage.getItem('Email');
-
- if (saveMessage) {
- refs.message.value = JSON.parse(saveMessage)|| {message:""};
- formDate.message = refs.message.value;
- console.log(saveMessage,"message");
- }
-
- if (saveEmail) {
-refs.email.value = JSON.parse(saveEmail)|| {email:""};
-formDate.email = refs.email.value;
-console.log(saveEmail,"email");
- }
- 
 }
+
+function updateOutput(e) {
+  e.preventDefault();
+  const outputTextContent = localStorage.getItem(LOCALSTORAGE_KEY);
+  const outputObjectContent = JSON.parse(outputTextContent)||{email:"", message:""};
+  const { email, message } = outputObjectContent;
+  form.elements.email.value = email;
+  form.elements.message.value = message;
+}
+
+function onSubmitForm(e) {
+  e.preventDefault();
+
+  const {
+    elements: { email, message },
+  } = e.currentTarget;
+
+  if (email.value === "" || message.value  === "") {
+    alert('All fields must be filled!');
+  } else {
+  console.log({email:email.value, message:message.value})
+  localStorage.clear();
+  form.reset();
+  }
+}
+
+form.addEventListener('input',throttle(onInputForm,500));
+form.addEventListener('submit', onSubmitForm);
+window.addEventListener('load', updateOutput);
